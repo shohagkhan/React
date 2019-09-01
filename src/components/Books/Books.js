@@ -6,7 +6,13 @@ export default class Books extends Component {
         return (
             <div>
                 {this.props.books.map((book, i) => {
-                    return <Book book={book} key={i} deleteHandle={this.props.deleteHandle} />
+                    return (
+                        <Book
+                            book={book} key={i}
+                            deleteHandle={this.props.deleteHandle}
+                            changeHandler={this.props.changeHandler}
+                        />
+                    )
                 })}
             </div>
         )
