@@ -1,19 +1,28 @@
 import React, { Component } from 'react'
 
 export default class Book extends Component {
+
+    state = {
+        isEditable: false
+    }
+
     render() {
+
+        let output = this.state.isEditable ? <input type="text" placeholder="Enter A Name" value={this.props.book.name} /> :  <p>{this.props.book.name}</p>
+
+
         return (
-            <div>
+            <div className="container">
                 <ul className="list-group">
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        {this.props.book.name}
-                        <p>
+                        {output}
+                        <p>                          
                             <span className="badge badge-primary badge-pill">
                                 {this.props.book.price}
                             </span>
                         </p>
                         <p>
-                            <span className="mx-3">
+                            <span className="mx-3" onClick={ () => this.setState({ isEditable: true }) } >
                                 <i className="fas fa-edit"></i>
                             </span>   
 
