@@ -1,50 +1,37 @@
 import React, { Component } from 'react'
-import Books from './Books/Books';
+import axios from 'axios'
 
 export default class App extends Component {
 
-  state = {
-    books: [
-      { name: 'Javascript', price: 100, id: 1 },
-      { name: 'React', price: 200, id: 2 },
-      { name: 'Angular', price: 300, id: 3 }
-    ]
-  }
+    state = {
+        posts: []
+    }
 
-  deleteHandle = (id) => {
-    let newBook = this.state.books.filter(book => book.id !== id)
-    this.setState({
-      books: newBook
-    })
-  }
+    componentDidMount() {
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+            .then(response => {
+                this.setState({
+                    posts: response.data
+                })
+            })
+            .catch(error => console.log(error))
+    }
 
-  changeHandler = (name, id) => {
-    let newBook = this.state.books.map(book => {
-      if (id === book.id) {
 
-        return {
-          ...book,
-          name: name
+    render() {
+        let { posts } = this.state
+        console.log(posts)
+
+        if (this.state.posts.length === 0) {
+            return <h1>Loading...</h1>
+        } else {
+            return (
+                <div className='container' >
+                    <ul className='list-group' >
+                        {posts.map(post => <li key={post.id} className='list-group-item'>{post.id}. {post.title}</li>)}
+                    </ul>
+                </div>
+            )
         }
-
-      }
-      return book
-
-    })
-    this.setState({
-      books: newBook
-    })
-  }
-
-  render() {
-    return (
-      <div>
-        <Books
-          books={this.state.books}
-          deleteHandle={this.deleteHandle.bind(this)}
-          changeHandler={this.changeHandler.bind(this)} />
-      </div>
-    )
-  }
+    }
 }
-
